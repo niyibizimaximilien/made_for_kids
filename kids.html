@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KidShare - Safe Sharing for Kids</title>
+    <style>
+        /* Global Styles */
+        :root {
+            --primary: #FF6B6B;
+            --secondary: #4ECDC4;
+            --accent: #FFE66D;
+            --light: #F7FFF7;
+            --dark: #292F36;
+            --safe: #6BCB77;
+            --warning: #FFD166;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Comic Neue', cursive, sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap');
+        
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 2rem;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .logo-icon {
+            margin-right: 15px;
+            font-size: 3rem;
+        }
+        
+        /* Navigation */
+        nav {
+            background-color: var(--accent);
+            padding: 0.5rem;
+            display: flex;
+            justify-content: center;
+            border-bottom: 3px solid var(--dark);
+        }
+        
+        nav a {
+            color: var(--dark);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            margin: 0 0.5rem;
+            font-weight: bold;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        nav a:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        
+        .intro {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        /* Content Sharing Section */
+        .content-area {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .content-area {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Safety Features */
+        .safety-panel {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+        
+        .safety-badge {
+            display: inline-block;
+            background-color: var(--safe);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+        }
+        
+        /* Content Feed */
+        .content-feed {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .content-card {
+            background-color: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .content-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .content-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .content-info {
+            padding: 1rem;
+        }
+        
+        .content-author {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .author-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+            background-color: var(--secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        /* Content Upload */
+        .upload-area {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .upload-box {
+            border: 2px dashed var(--secondary);
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .upload-box:hover {
+            background-color: rgba(78, 205, 196, 0.1);
+        }
+        
+        .upload-icon {
+            font-size: 3rem;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-links a {
+            color: white;
+            margin: 0 1rem;
+            text-decoration: none;
+        }
+        
+        /* Modals */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* Form Elements */
+        input, textarea, select {
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-family: inherit;
+        }
+        
+        button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        button:hover {
+            background-color: #ff5252;
+            transform: translateY(-2px);
+        }
+        
+        /* Age Verification */
+        .age-verification {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--accent);
+            z-index: 1001;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .age-verification h2 {
+            margin-bottom: 1rem;
+        }
+        
+        .age-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .age-yes {
+            background-color: var(--safe);
+        }
+        
+        .age-no {
+            background-color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <!-- Age Verification Modal -->
+    <div class="age-verification" id="ageVerification">
+        <h2>Welcome to KidShare!</h2>
+        <p>This website is for kids only. Are you under 13 years old?</p>
+        <div class="age-buttons">
+            <button class="age-yes" id="confirmAgeYes">Yes, I'm a kid!</button>
+            <button class="age-no" id="confirmAgeNo">No, I'm an adult</button>
+        </div>
+        <p style="margin-top: 2rem; font-size: 0.8rem;">By entering, you agree to our <a href="#">Safety Rules</a></p>
+    </div>
+    
+    <!-- Main Website (hidden until age verification) -->
+    <div id="mainWebsite" style="display: none;">
+        <header>
+            <div class="logo">
+                <span class="logo-icon">👧👦</span>
+                <span>KidShare</span>
+            </div>
+            <p>Share your creations safely with other kids!</p>
+        </header>
+        
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#share">Share</a>
+            <a href="#explore">Explore</a>
+            <a href="#safety">Safety</a>
+            <a href="#parents">Parents</a>
+        </nav>
+        
+        <div class="container">
+            <section class="intro">
+                <h2>Welcome to KidShare!</h2>
+                <p>A safe place for kids to share drawings, stories, and fun creations with other kids around the world!</p>
+                <button id="openUploadModal">Share Your Creation</button>
+            </section>
+            
+            <div class="content-area">
+                <aside class="safety-panel">
+                    <span class="safety-badge">SAFE FOR KIDS</span>
+                    <h3>Safety First!</h3>
+                    <ul style="padding-left: 1.2rem; margin-top: 1rem;">
+                        <li style="margin-bottom: 0.5rem;">All content is reviewed</li>
+                        <li style="margin-bottom: 0.5rem;">No personal information</li>
+                        <li style="margin-bottom: 0.5rem;">Only kid-appropriate</li>
+                        <li style="margin-bottom: 0.5rem;">Report button on every post</li>
+                    </ul>
+                    <img src="https://via.placeholder.com/200x100?text=Parental+Controls" alt="Parental Controls" style="width: 100%; margin-top: 1rem; border-radius: 10px;">
+                </aside>
+                
+                <main>
+                    <h3 style="margin-bottom: 1rem;">Recent Shares from Kids</h3>
+                    <div class="content-feed" id="contentFeed">
+                        <!-- Content will be loaded here by JavaScript -->
+                    </div>
+                </main>
+            </div>
+            
+            <div class="upload-area" id="uploadArea">
+                <h3>Share Your Creation</h3>
+                <div class="upload-box" id="uploadBox">
+                    <div class="upload-icon">📤</div>
+                    <p>Drag & drop your drawing, story, or photo here</p>
+                    <p>or</p>
+                    <button id="uploadButton">Select File</button>
+                    <input type="file" id="fileInput" style="display: none;">
+                </div>
+                <p style="font-size: 0.8rem; color: #666;">Remember: Never share personal information!</p>
+            </div>
+        </div>
+        
+        <footer>
+            <div class="footer-links">
+                <a href="#safety">Safety Center</a>
+                <a href="#parents">Parents</a>
+                <a href="#teachers">Teachers</a>
+                <a href="#help">Help</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <p>© 2023 KidShare - A Safe Space for Kids</p>
+            <p style="font-size: 0.8rem; margin-top: 0.5rem;">KidShare is COPPA compliant and child-safe</p>
+        </footer>
+        
+        <!-- Upload Modal -->
+        <div class="modal" id="uploadModal">
+            <div class="modal-content">
+                <span class="close-modal" id="closeModal">&times;</span>
+                <h3>Share Your Creation</h3>
+                <form id="uploadForm">
+                    <div class="upload-box" style="margin-bottom: 1rem;">
+                        <div class="upload-icon">🖼️</div>
+                        <p id="fileName">No file selected</p>
+                        <button type="button" id="modalUploadButton">Select File</button>
+                        <input type="file" id="modalFileInput" style="display: none;">
+                    </div>
+                    
+                    <label for="contentTitle">Title:</label>
+                    <input type="text" id="contentTitle" placeholder="My Awesome Drawing" required>
+                    
+                    <label for="contentDescription">Description:</label>
+                    <textarea id="contentDescription" placeholder="Tell us about your creation..." rows="3"></textarea>
+                    
+                    <label for="contentType">Type:</label>
+                    <select id="contentType">
+                        <option value="drawing">Drawing</option>
+                        <option value="story">Story</option>
+                        <option value="photo">Photo</option>
+                        <option value="craft">Craft</option>
+                        <option value="other">Other</option>
+                    </select>
+                    
+                    <div style="margin-top: 1rem;">
+                        <input type="checkbox" id="safetyCheck" required>
+                        <label for="safetyCheck">I confirm this doesn't show any personal information</label>
+                    </div>
+                    
+                    <button type="submit" style="margin-top: 1rem; width: 100%;">Share It!</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Age Verification
+        document.addEventListener('DOMContentLoaded', function() {
+            const ageYes = document.getElementById('confirmAgeYes');
+            const ageNo = document.getElementById('confirmAgeNo');
+            const ageVerification = document.getElementById('ageVerification');
+            const mainWebsite = document.getElementById('mainWebsite');
+            
+            ageYes.addEventListener('click', function() {
+                ageVerification.style.display = 'none';
+                mainWebsite.style.display = 'block';
+                localStorage.setItem('ageVerified', 'true');
+            });
+            
+            ageNo.addEventListener('click', function() {
+                alert('This website is for children only. Redirecting to a more appropriate site.');
+                window.location.href = 'https://www.commonsensemedia.org/';
+            });
+            
+            // Check if already verified
+            if (localStorage.getItem('ageVerified') === 'true') {
+                ageVerification.style.display = 'none';
+                mainWebsite.style.display = 'block';
+            }
+            
+            // Upload Modal
+            const openUploadModal = document.getElementById('openUploadModal');
+            const uploadModal = document.getElementById('uploadModal');
+            const closeModal = document.getElementById('closeModal');
+            const uploadForm = document.getElementById('uploadForm');
+            
+            openUploadModal.addEventListener('click', function() {
+                uploadModal.style.display = 'flex';
+            });
+            
+            closeModal.addEventListener('click', function() {
+                uploadModal.style.display = 'none';
+            });
+            
+            // Close modal when clicking outside
+            window.addEventListener('click', function(event) {
+                if (event.target === uploadModal) {
+                    uploadModal.style.display = 'none';
+                }
+            });
+            
+            // File Upload Handling
+            const uploadButton = document.getElementById('uploadButton');
+            const fileInput = document.getElementById('fileInput');
+            const modalUploadButton = document.getElementById('modalUploadButton');
+            const modalFileInput = document.getElementById('modalFileInput');
+            const fileName = document.getElementById('fileName');
+            
+            uploadButton.addEventListener('click', function() {
+                fileInput.click();
+            });
+            
+            modalUploadButton.addEventListener('click', function() {
+                modalFileInput.click();
+            });
+            
+            fileInput.addEventListener('change', function() {
+                uploadModal.style.display = 'flex';
+                if (fileInput.files.length > 0) {
+                    modalFileInput.files = fileInput.files;
+                    fileName.textContent = fileInput.files[0].name;
+                }
+            });
+            
+            modalFileInput.addEventListener('change', function() {
+                if (modalFileInput.files.length > 0) {
+                    fileName.textContent = modalFileInput.files[0].name;
+                }
+            });
+            
+            // Form Submission
+            uploadForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // In a real app, you would upload to a server here
+                alert('Your content has been submitted for review! It will appear after our safety check.');
+                uploadModal.style.display = 'none';
+                uploadForm.reset();
+                fileName.textContent = 'No file selected';
+                
+                // Add to feed (simulated)
+                addToFeed(
+                    document.getElementById('contentTitle').value,
+                    'Kid Artist',
+                    document.getElementById('contentType').value,
+                    'https://via.placeholder.com/300x200?text=Kid+Creation'
+                );
+            });
+            
+            // Sample content for the feed
+            const sampleContent = [
+                { title: "My Space Adventure", author: "Alex, 8", type: "drawing", image: "https://via.placeholder.com/300x200?text=Space+Adventure" },
+                { title: "The Magic Tree", author: "Sophia, 7", type: "story", image: "https://via.placeholder.com/300x200?text=Magic+Tree" },
+                { title: "Lego Castle", author: "Ethan, 9", type: "craft", image: "https://via.placeholder.com/300x200?text=Lego+Castle" },
+                { title: "Rainbow Unicorn", author: "Mia, 6", type: "drawing", image: "https://via.placeholder.com/300x200?text=Rainbow+Unicorn" },
+                { title: "My Pet Dog", author: "Liam, 7", type: "photo", image: "https://via.placeholder.com/300x200?text=Pet+Dog" },
+                { title: "Robot Drawing", author: "Olivia, 8", type: "drawing", image: "https://via.placeholder.com/300x200?text=Robot+Drawing" }
+            ];
+            
+            // Load sample content
+            const contentFeed = document.getElementById('contentFeed');
+            
+            sampleContent.forEach(item => {
+                addToFeed(item.title, item.author, item.type, item.image);
+            });
+            
+            function addToFeed(title, author, type, image) {
+                const card = document.createElement('div');
+                card.className = 'content-card';
+                card.innerHTML = `
+                    <img src="${image}" alt="${title}" class="content-image">
+                    <div class="content-info">
+                        <div class="content-author">
+                            <div class="author-avatar">${author.charAt(0)}</div>
+                            <div>
+                                <div style="font-weight: bold;">${title}</div>
+                                <div style="font-size: 0.8rem;">by ${author}</div>
+                            </div>
+                        </div>
+                        <span style="background-color: #f0f0f0; padding: 0.2rem 0.5rem; border-radius: 10px; font-size: 0.8rem;">${type}</span>
+                        <button style="margin-top: 0.5rem; padding: 0.3rem 0.8rem; font-size: 0.8rem; background-color: var(--secondary);">👍 Like</button>
+                    </div>
+                `;
+                contentFeed.prepend(card);
+            }
+            
+            // Drag and drop functionality
+            const uploadBox = document.getElementById('uploadBox');
+            
+            uploadBox.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                uploadBox.style.backgroundColor = 'rgba(78, 205, 196, 0.2)';
+            });
+            
+            uploadBox.addEventListener('dragleave', function() {
+                uploadBox.style.backgroundColor = '';
+            });
+            
+            uploadBox.addEventListener('drop', function(e) {
+                e.preventDefault();
+                uploadBox.style.backgroundColor = '';
+                
+                if (e.dataTransfer.files.length) {
+                    fileInput.files = e.dataTransfer.files;
+                    uploadModal.style.display = 'flex';
+                    fileName.textContent = e.dataTransfer.files[0].name;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
